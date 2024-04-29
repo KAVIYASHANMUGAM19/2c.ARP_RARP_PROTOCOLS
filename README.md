@@ -20,35 +20,106 @@ P
 
 CLIENT:
 
-import socket 
+     import socket 
     
-s=socket.socket()
+     s=socket.socket()
     
-s.bind(('localhost',8000))
+     s.bind(('localhost',8000))
 
-s.listen(5)
+     s.listen(5)
 
-c,addr=s.accept()
+     c,addr=s.accept()
 
-address={"165.165.80.80":"6A:08:AA:C2","165.165.79.1":"8A:BC:E3:FA"};
+     address={"165.165.80.80":"6A:08:AA:C2","165.165.79.1":"8A:BC:E3:FA"};
 
-while True:
+     while True:
 
-    ip=c.recv(1024).decode()
+           ip=c.recv(1024).decode()
     
-    try:
+           try:
     
-        c.send(address[ip].encode())
+              c.send(address[ip].encode())
       
-    except KeyError:
+          except KeyError:
     
-        c.send("Not Found".encode())
+              c.send("Not Found".encode())
+
+SERVER:
+
+      import socket
+      
+      s=socket.socket()
+      
+      s.connect(('localhost',8000))
+      
+      while True:
+      
+         ip=input("Enter logical Address: ")
+         
+         s.send(ip.encode())
+         
+         print("MAC Address",s.recv(1024).decode())
+         
 
  
 ## OUPUT - ARP
 
+![Screenshot 2024-03-11 143357](https://github.com/KAVIYASHANMUGAM19/2c.ARP_RARP_PROTOCOLS/assets/155141139/dcf0998a-ac3a-4cba-92fb-4bdd1d28c68a)
+
+
 ## PROGRAM - RARP
+
+CLIENT:
+
+      import socket 
+      
+      s=socket.socket()
+      
+      s.bind(('localhost',8000))
+      
+      s.listen(5)
+      
+      c,addr=s.accept()
+      
+      address={"6A:08:AA:C2":"165.165.80.80","8A:BC:E3:FA":"165.165.79.1"};
+      
+      while True:
+      
+          ip=c.recv(1024).decode()
+          
+          try:
+          
+              c.send(address[ip].encode())
+              
+          except KeyError:
+          
+              c.send("Not Found".encode())
+
+
+SERVER:
+
+       import socket
+       
+       s=socket.socket()
+       
+       s.connect(('localhost',8000))
+       
+       while True:
+       
+            ip=input("Enter MAC Address: ")
+            
+            s.send(ip.encode())
+            
+            print("IP Address",s.recv(1024).decode())
+
+            
+
 ## OUPUT -RARP
+
+![Screenshot 2024-03-11 142658](https://github.com/KAVIYASHANMUGAM19/2c.ARP_RARP_PROTOCOLS/assets/155141139/9f2197c6-8245-4582-b6a9-f415100495ad)
+
+
+
 ## RESULT
 Thus, the python program for simulating ARP protocols using TCP was successfully 
 executed.
